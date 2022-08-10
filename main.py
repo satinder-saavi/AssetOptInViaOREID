@@ -51,9 +51,9 @@ if __name__ == '__main__':
     logger.warning("---------- ASA OPT In using ORE ID ----------")
     # the main issue is that the action_dict format or chain_action_type value for asa transfer is not valid
     action_dict = {
-                "fromAccountName": creator_address,
+                "fromAccountName": asa_receiver_address,
                 "toAccountName": asa_receiver_address,
-                "amount": 10, "symbol": 'algo',
+                "amount": 0, "symbol": 'algo',
                 'assetIndex':asa_id,
             }
 
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     action_dict = {
                 "fromAccountName": creator_address,
                 "toAccountName": asa_receiver_address,
-                "amount": 0, "symbol": 'algo',
+                "amount": 10, "symbol": 'algo',
                 'assetIndex':asa_id,
             }
     try:
