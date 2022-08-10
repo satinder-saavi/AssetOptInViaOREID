@@ -5,3 +5,6 @@
 
 #### copy `.env.example` to `.env`
 #### update the required credentials
+
+
+#### Run `python main.py`
