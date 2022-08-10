@@ -1,0 +1,12 @@
+venv/
+.env
+**/venv
+.coverage
+.idea/
+__pycache__
+*.pyc
+
+.vscode/*
+Makefile
+**/node_modules
+.DS_Store
