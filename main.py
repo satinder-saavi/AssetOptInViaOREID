@@ -50,6 +50,9 @@ if __name__ == '__main__':
 
     logger.warning("---------- ASA OPT In using ORE ID ----------")
     # the main issue is that the action_dict format or chain_action_type value for asa transfer is not valid
+
+     #  tried to take reference from
+    #  https://github.com/Open-Rights-Exchange/chain-js/blob/master/src/models/chainActionTypeModels.ts
     action_dict = {
                 "fromAccountName": asa_receiver_address,
                 "toAccountName": asa_receiver_address,

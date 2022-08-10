@@ -23,6 +23,7 @@ class Action(Enum):
     ALGO_TRANSFER = "algo_transfer"
     SMARTCONTRACT = "smartcontract"
 
+
 class ChainActionType(Enum):
     APPNOOP = 'AppNoOp'
     VALUE_TRANSFER = 'ValueTransfer'
@@ -30,6 +31,8 @@ class ChainActionType(Enum):
 # ---------------------------------------------------------------
 # create_ore_id_user
 # ---------------------------------------------------------------
+
+
 def create_ore_id_user(user_data):
     """
     If service_key , name, user_name , email, picture , password 
@@ -43,9 +46,7 @@ def create_ore_id_user(user_data):
     last_name = user_data.get('last_name')
     email = user_data.get('email')
     picture = user_data.get('picture', '')
-    # password = user_data.get('password')
-    # using a static password
-    password = "3698"
+    password = user_data.get('password')  
     phone = user_data.get('phone_number')
     account_type = user_data.get('account_type', 'native')
 
@@ -200,66 +201,63 @@ def send_verification_code(email=None, phone=None):
             logger.error(
                 "facing error while sending ORE account verification code %s", _msg)
 
-
     return res_json
 
 
-
+#  ---------------------------------------------------------------
+# send_verification_code
+#  ---------------------------------------------------------------
 def get_action_params(action_dict):
-    #  tried to take reference from
-    #  https://github.com/Open-Rights-Exchange/chain-js/blob/master/src/models/chainActionTypeModels.ts
 
     params_json = json.dumps(action_dict)
+
     return base64.b64encode(params_json.encode('utf-8')).decode("utf-8")
 
 
 def compose_transaction(action_dict, chain_action_type):
-    url = BASE_URL + '/api/transaction/compose-action'
 
+    url = BASE_URL + '/api/transaction/compose-action'
 
     data = json.dumps({
         "chain_network": 'algo_test',
         "chain_action_type": chain_action_type,
         "action_params": get_action_params(action_dict)
     })
-    
+
     headers = {
-    "api-key": API_KEY,
-    "service-key": SERVICE_KEY,
-    "content-type": "application/json",
+        "api-key": API_KEY,
+        "service-key": SERVICE_KEY,
+        "content-type": "application/json",
     }
 
     res = requests.request("POST",
-                        url=url,
-                        headers=headers,
-                        data=data
-                        )
-
+                           url=url,
+                           headers=headers,
+                           data=data
+                           )
 
     res_json = res.json()
-    
+
     logger.info(res_json)
 
     if res.status_code == 200:
-        logger.info("----- code sent on your register email successfully -----")
+        logger.info("----- compose transaction successfully -----")
         return json.loads(res.content)
     else:
         logger.info(
-            f"----- facing issue while sending ORE account verification code {res.status_code} -----")
+            f"----- facing issue while compose transaction {res.status_code} -----")
 
         if res_json.get('message'):
             _msg = res_json.get('message')
             logger.error(
-                "facing error while sending ORE account verification code %s", _msg)
+                "facing error while compose transaction %s", _msg)
 
         if res_json.get('errorMessage'):
             _msg = res_json.get('errorMessage')
             logger.error(
-                "facing error while sending ORE account verification code %s", _msg)
-
+                "facing error while compose transaction %s", _msg)
 
     return res_json
-
 
 
 #  ---------------------------------------------------------------
@@ -284,9 +282,9 @@ def sign_transaction(account, password, action_dict, chain_action_type, broadcas
     })
 
     headers = {
-    "api-key": API_KEY,
-    "service-key": SERVICE_KEY,
-    "content-type": "application/json",
+        "api-key": API_KEY,
+        "service-key": SERVICE_KEY,
+        "content-type": "application/json",
     }
 
     res = requests.request("POST", url, headers=headers, data=data)
@@ -294,22 +292,21 @@ def sign_transaction(account, password, action_dict, chain_action_type, broadcas
     res_json = res.json()
 
     if res.status_code == 200:
-        logger.info("account is created successfully %s", res.content)
+        logger.info("transaction successfully %s", res.content)
     else:
         logger.warning(
-            "facing issue while creating account %s",
+            "facing issue while ORE sign transaction %s",
             res.text
         )
 
         if res_json.get('error'):
             _msg = res_json.get('error')
-            logger.error("facing error while creating ORE account %s", _msg)
+            logger.error("facing error while ORE sign transaction %s", _msg)
 
         if res_json.get('message'):
             _msg = res_json.get('message')
-            logger.error("facing error while creating ORE account %s", _msg)
+            logger.error("facing error while ORE sign transaction %s", _msg)
 
         if res_json.get('errorMessage'):
             _msg = res_json.get('errorMessage')
-            logger.error("facing error while creating ORE account %s", _msg)
-
+            logger.error("facing error while ORE sign transaction %s", _msg)
