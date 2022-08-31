@@ -2,7 +2,7 @@ import logging
 
 from decouple import config
 from algo_utils import get_client, asset_info,  fund_account_and_transfer_asa
-from ore_id_utils import sign_transaction
+from ore_id_utils import sign_transaction, ore_id_asa_action, ore_id_asa_sign_transaction, can_auto_sign, chain_config
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ asa_receiver_address = config('ORE_ID_CHAIN_ACCOUNT')
 asa_amount = 10
 
 # ASA ID
-asa_id = config('ASSET_ID', default=96230975, cast=int)
+asa_id = config('ASSET_ID', default=94701156, cast=int)
 
 
 
@@ -35,12 +35,13 @@ if __name__ == '__main__':
     # unable to transfer asset as reciever account is not opt in
     # as reciever account is an ORE ID account, we need a way to opt in the ORE ID Account for a given ASA
     try:
-        fund_account_and_transfer_asa(algod_client=algod_client,
-                                                        creator_private_key=creator_private_key,
-                                                        asa_receiver_address=asa_receiver_address,
-                                                        asa_amount=asa_amount,
-                                                        asa_id=asa_id
-                                                            )
+        # fund_account_and_transfer_asa(algod_client=algod_client,
+        #                                                 creator_private_key=creator_private_key,
+        #                                                 asa_receiver_address=asa_receiver_address,
+        #                                                 asa_amount=asa_amount,
+        #                                                 asa_id=asa_id
+        #                                                     )
+        pass
 
     except Exception as ex:
         logger.error(f'ASA Transfer using python sdk Error: {ex}')
@@ -74,21 +75,24 @@ if __name__ == '__main__':
                 'assetIndex':asa_id,
             }
     try:
-        sign_transaction(account, password, action_dict, chain_action_type, broadcast, chain_account, chain_network)
-
+        # ore_id_asa_action(account, asa_id)
+        ore_id_asa_sign_transaction( account, password,chain_action_type, asa_id, broadcast, chain_account, chain_network)
+        # can_auto_sign(account, chain_network,account)
+        # chain_config()
     except Exception as ex:
         logger.error(f'ASA OPT In using ORE ID Error: {ex}')
     logger.warning("==========================================================")
 
-    logger.warning("---------- ASA Transfer using ORE ID ----------")
-    action_dict = {
-                "fromAccountName": creator_address,
-                "toAccountName": asa_receiver_address,
-                "amount": 10, "symbol": 'algo',
-                'assetIndex':asa_id,
-            }
-    try:
-        sign_transaction(account, password, action_dict, chain_action_type, broadcast, chain_account, chain_network)
-    except Exception as ex:
-        logger.error(f'ASA Transfer using ORE ID Error: {ex}')
-    logger.warning("==========================================================")
+    # logger.warning("---------- ASA Transfer using ORE ID ----------")
+    # action_dict = {
+    #             "fromAccountName": creator_address,
+    #             "toAccountName": asa_receiver_address,
+    #             "amount": 10, "symbol": 'algo',
+    #             'assetIndex':asa_id,
+    #         }
+    # try:
+    #     # sign_transaction(account, password, action_dict, chain_action_type, broadcast, chain_account, chain_network)
+    #     pass
+    # except Exception as ex:
+    #     logger.error(f'ASA Transfer using ORE ID Error: {ex}')
+    # logger.warning("==========================================================")
