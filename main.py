@@ -76,23 +76,28 @@ if __name__ == '__main__':
             }
     try:
         # ore_id_asa_action(account, asa_id)
-        ore_id_asa_sign_transaction( account, password,chain_action_type, asa_id, broadcast, chain_account, chain_network)
+        amount = 0
+        ore_id_asa_sign_transaction( account, password,chain_action_type, asa_id,amount, broadcast, chain_account, chain_network)
         # can_auto_sign(account, chain_network,account)
         # chain_config()
     except Exception as ex:
         logger.error(f'ASA OPT In using ORE ID Error: {ex}')
     logger.warning("==========================================================")
 
-    # logger.warning("---------- ASA Transfer using ORE ID ----------")
-    # action_dict = {
-    #             "fromAccountName": creator_address,
-    #             "toAccountName": asa_receiver_address,
-    #             "amount": 10, "symbol": 'algo',
-    #             'assetIndex':asa_id,
-    #         }
-    # try:
-    #     # sign_transaction(account, password, action_dict, chain_action_type, broadcast, chain_account, chain_network)
-    #     pass
-    # except Exception as ex:
-    #     logger.error(f'ASA Transfer using ORE ID Error: {ex}')
-    # logger.warning("==========================================================")
+    logger.warning("---------- ASA Transfer using ORE ID ----------")
+    action_dict = {
+                "fromAccountName": creator_address,
+                "toAccountName": asa_receiver_address,
+                "amount": 10, "symbol": 'algo',
+                'assetIndex':asa_id,
+            }
+    try:
+        # sign_transaction(account, password, action_dict, chain_action_type, broadcast, chain_account, chain_network)
+        # pass
+        amount = 10
+        ore_id_asa_sign_transaction( account, password,chain_action_type, asa_id,amount, broadcast, chain_account, chain_network)
+
+
+    except Exception as ex:
+        logger.error(f'ASA Transfer using ORE ID Error: {ex}')
+    logger.warning("==========================================================")

@@ -314,7 +314,7 @@ def sign_transaction(account, password, action_dict, chain_action_type, broadcas
 
 
 
-def ore_id_asa_action(sender_address, asa_id):
+def ore_id_asa_action(sender_address, asa_id,amount=0):
     """
     params = get_client().suggested_params()
     # comment out the next two (2) lines to use suggested fees
@@ -398,7 +398,7 @@ def ore_id_asa_action(sender_address, asa_id):
             'from': sender_address,
             'to': sender_address,
             'assetIndex': asa_id,
-            'amount': 0,
+            'amount': amount,
             'type': "axfer"
         
     }
@@ -415,10 +415,10 @@ def ore_id_asa_action(sender_address, asa_id):
 #  ---------------------------------------------------------------
 # ore_id_asa_sign_transaction
 #  ---------------------------------------------------------------
-def ore_id_asa_sign_transaction(account, password,chain_action_type, asa_id, broadcast=True, chain_account='', chain_network=''):
+def ore_id_asa_sign_transaction(account, password,chain_action_type, asa_id,amount=0, broadcast=True, chain_account='', chain_network=''):
 
     url = BASE_URL + "/api/transaction/sign"
-    transaction = ore_id_asa_action(chain_account, asa_id)
+    transaction = ore_id_asa_action(chain_account, asa_id, amount)
     # action_dict = ore_id_asa_action(chain_account, asa_id)
     
     # transaction = compose_transaction(action_dict, chain_action_type)
